@@ -1,16 +1,18 @@
 sudo: false
 cache:
   directories:
-  - "$HOME/.gradle"
+  - "$HOME/.gradle/caches/"
+  - "$HOME/.gradle/wrapper/"
 jdk:
 - oraclejdk8
 before_cache:
-  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
-  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
-cache:
-  directories:
-    - $HOME/.gradle/caches/
-    - $HOME/.gradle/wrapper/
+- rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+- rm -fr $HOME/.gradle/caches/*/plugin-resolution/
 script:
 - if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then bash ./travis-build-pr.sh; fi
 - if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then bash ./travis-build.sh; fi
+env:
+  global:
+  - secure: p9QuOfCYcZE7MdVFZOQDr3i/vbaDfPf3ndahkW45s4GgoRTZdCDJiZdoJkeiFckChyY2Dq6b9CN184dY9EVcN8nxt+YhRhlVZEsmO03wmsp1P2ihQvMntSXBTrcRTVrdIa1lhrmnynUh28ovpG6ajvOFvN64OzQTVTCf9W8vg7NP0VxTj5vbEHRIUrAQepGWvRUC9rbmRZ2VezUj+1tSp6x+oOeakQH4wBdnv/5H9lX5K/p57b7JsPsm9RAMVXTyfhFCdhGhs0UNtPyoi29nNSUbnT0SLf9dPgXeXY9SoBbww7q8ljo8JWoTOLDff+aF10soKEzqwJcjPsl0rldwd0ZK6nsSKx6UbcTs2v4YWu0WVjs6VsNdTDXW72w/n3JBpHTrTfArpHV11SMkCHbKLWt8GmAi3raHHyCs1s6ySu0jjglqBvssetGCpsLYeztq0y0ZXOpuhrgiY8CPF5ZkhW9pGAEnXcmBgwmRDce8ECuPYiE7JNsyivQfmAKcwpSsIopdvDgtHvQLIflbN9Ryc89ZPt1+oJp+Ms+5bSUKCsgBmbBeOuBTra/H4TTmj32soi2Fajtz2vZ/D/CyfweJRY5BLs7hssXBQUcwwkd3IyAjXXrkvhybX8cWxf0Tg4AH59PJEPrcl2MYTTfm/MlL4WVK7xbD7sJI7H/yzkr4tOM=
+  - secure: g0vLuS0PB6YZ/2MYBk1lswRkabeCl1873TNcFBNIsUnG34yn3VvMZgj/DRuAkTGp5V0uZne+Qp64lfEq27sqbFDDk40h3rgZqiqO13rFqM/nHFi0kbKnYi8jGJaRimazIwbpVd6fp7ZxRx4KVH1guvsr6EGwxOk03D4SzRHovtKDbcA6vFtC+KN5P0wtGowxhbyxbpIXuVuI37Yrp7CyFA3yV0g8ZuEZA+nGvXzSQgcpfKnqjHKxoI16uUi9IVpb1HvNnxj9BmlliXu84QX33jjimrgHi2nN2hfeons2DpbGpieSZ4LFbBp9gGDHRLiHHu4JGdKZkp2F7m/P9Mcu80a0y92TWa36aavYCFtbB2NdwaSQYpn2OCrqqY+s/Y8hTyikMHBLziOyMAm+oJiDTc2e3oHpgKzR4zaqySd8XevYlUFVuiRVF1/ncUi+4j8szFZs9+C8Rtm8sg6ii5knmyrVmjJ5aRzZwx8d/aKzQ5aTEZ4PkALwDMak9JLW8fsHwgglzZkCRNxou/O+5uqag7pbEG6XtjDddBQW6TkAg18WpJ5ISiap9s2wrcnpRHnzlo/lx7w042eymkb18QXH4HC+lMRkoFPCqcy5qQdTf/9nbvRgDl7HBV4HbcDYtyt5We8GWXVkcRjI0SoJkRUn5+v/W1IEalxxFSP/9OqJosY=
+  - secure: oUgufhaUfesAebhb5dThDQ0BmCxCnqtvxuoZ8i67qaOGTMrtd25h7vH2oJdWCSxzMkTDxk0Wy0bjEZ/o7VVuUPid16df5ePpS5w8mnP4/g96JD1lA6VnhCq3I8yHCsEexdmaSVfv28qpq2R9JhudJHENk9d2ZRgHaCgIVJwZVOUuv24rZC9um0Z/D7KH6W0xU2cMD+PFf2121ixPyZKlAB9jzDzRdhGyLcfCTaLtga/Qz3OArg1r20TVakSdB/447+aKL8Ihp4xKLkxTzU+b2Ru+R/Chas6vMVPSLe6377kB2YexmSwTbYyqVGMO+OwzCSW/vv1VBpEo16eiaTaak/UEOkII6k6NZbXjpsHyGPOttTVBcTXuDZJ2krerwqhcinMRf6g4aoxKMZChY/fpo2qmF5TD/ZC7VL85GxqNs1k3RNnZOWxdCBW/cbFpuV2onw2S1SUR4qOgokg/EmyOeaqOThp0z8zdFCLX3DHhV07hGV5m+tiIAoVuzx2j93klRwirnSZTBm+3vCJhJAH9aTRRHqF+HAFhnmxGVDvRZjF1Vq5C++hAzoVU+Hqdauaz+/MN2uq9vEt6AnSORNbQUhoJxiIyAvA3anSxa+XjuXAYZUJwh/yFxyfNKOH7Xm5vrNjQhzylBCW07ULoSilDcCR5eJEq/ZN2EIwM5TxQwWw=
