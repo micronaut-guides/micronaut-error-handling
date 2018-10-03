@@ -1,0 +1,37 @@
+We want to display a custom `Not Found` page when the user attempts to access a uri for which we have not any route defined for.
+
+image::notfound.png[]
+
+The views module provides support for view rendering on the server side and does so by rendering views on the I/O thread pool in order to avoid blocking the Netty event loop.
+
+To use the view rendering features described in this section, add the following dependency on your classpath. For example, in build.gradle
+
+[source,groovy]
+.build.gradle
+----
+include::{sourceDir}/build.gradle[tag=views]
+----
+
+Micronaut ships out-of-the-box with support for http://velocity.apache.org/[Apache Velocity], https://www.thymeleaf.org/[Thymeleaf] or http://jknack.github.io/handlebars.java/[Handlebars]. In this guide, we use Apache Velocity.
+
+Create a `notfound.vm` view:
+
+[source,java]
+.src/main/resources/views/notfound.vm
+----
+include::{sourceDir}/src/main/resources/views/notfound.vm[]
+----
+
+Create a `NotFoundController`:
+
+[source,java]
+.src/main/java/example/micronaut/NotFoundController.java
+----
+include::{sourceDir}/src/main/java/example/micronaut/NotFoundController.java[]
+----
+
+<1> The class is defined as a controller with the `@Controller` annotation.
+<2> Inject an available https://docs.micronaut.io/snapshot/api/io/micronaut/views/ViewRenderer.html[ViewRenderer] bean to render an HTML view.
+<3> The Error declares which `HttpStatus` error code to handle (in this case 404). We declare the method as a global error handler due to `global = true`.
+<4> If the request `Accept` HTTP Header contains `text/html`, we respond an HTML View.
+<5> By default, we respond JSON.

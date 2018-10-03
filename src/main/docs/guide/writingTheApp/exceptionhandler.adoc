@@ -1,0 +1,43 @@
+Another mechanism to handle global exception is to use a `ExceptionHandler`.
+
+Modify the controller and add a method to throw an exception:
+
+[source,java]
+.src/main/java/example/micronaut/BookController.java
+----
+include::{sourceDir}/src/main/java/example/micronaut/BookController.java[tag=clazz]
+...
+..
+.
+include::{sourceDir}/src/main/java/example/micronaut/BookController.java[tag=stock]
+}
+----
+
+[source,java]
+.src/main/java/example/micronaut/OutOfStockException.java
+----
+include::{sourceDir}/src/main/java/example/micronaut/OutOfStockException.java[]
+----
+
+Implement a ExceptionHandler; a generic hook for handling exceptions that occurs during the execution of an HTTP request.
+
+[source,java]
+.src/main/java/example/micronaut/OutOfStockExceptionHandler.java
+----
+include::{sourceDir}/src/main/java/example/micronaut/OutOfStockExceptionHandler.java[]
+----
+
+<1> To register a Singleton in Micronaut’s application context, annotate your class with `javax.inject.Singleton`.
+<2> This bean loads if `OutOfStockException`, `ExceptionHandler` are available.
+<3> Specify the `Throwable` to handle.
+<4> Return 200 OK with a body of 0; no stock.
+
+
+
+
+
+
+
+
+
+

@@ -5,11 +5,11 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 
 public class CommandBookSave {
-    @NotBlank
+    @NotBlank // <1>
     private String title;
 
-    @NotNull
-    @Positive
+    @NotNull // <2>
+    @Positive // <3>
     private Integer pages;
 
     public CommandBookSave() {

@@ -1,0 +1,11 @@
+gettingStarted: 
+  title: Getting Started
+  requirements: What you will need
+  solution: Solution
+writingTheApp:
+  title: Writing the App
+  globalerror: Global @Error
+  localerror: Local @Error
+  exceptionhandler: ExceptionHandler
+nextSteps:
+  title: Next Steps

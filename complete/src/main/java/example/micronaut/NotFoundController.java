@@ -12,21 +12,21 @@ import io.micronaut.views.ViewsRenderer;
 
 import java.util.Collections;
 
-@Controller("/notfound")
+@Controller("/notfound") // <1>
 public class NotFoundController {
 
     private final ViewsRenderer viewsRenderer;
 
-    public NotFoundController(ViewsRenderer viewsRenderer) {
+    public NotFoundController(ViewsRenderer viewsRenderer) { // <2>
         this.viewsRenderer = viewsRenderer;
     }
 
-    @Error(status = HttpStatus.NOT_FOUND, global = true)
+    @Error(status = HttpStatus.NOT_FOUND, global = true)  // <3>
     public HttpResponse notFound(HttpRequest request) {
         if (request.getHeaders()
                 .accept()
                 .stream()
-                .anyMatch(mediaType -> mediaType.getName().contains(MediaType.TEXT_HTML))) {
+                .anyMatch(mediaType -> mediaType.getName().contains(MediaType.TEXT_HTML))) { // <4>
             return HttpResponse.ok(viewsRenderer.render("notFound", Collections.emptyMap()))
                     .contentType(MediaType.TEXT_HTML);
         }
@@ -35,6 +35,6 @@ public class NotFoundController {
                 .link(Link.SELF, Link.of(request.getUri()));
 
         return HttpResponse.<JsonError>notFound()
-                .body(error);
+                .body(error); // <5>
     }
 }
