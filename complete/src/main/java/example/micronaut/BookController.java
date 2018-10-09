@@ -36,10 +36,10 @@ public class BookController {
 //end::clazz[]
 
     //tag::di[]
-    private final ViewsRenderer viewsRenderer;
+    private  final MessageSource messageSource;
 
-    public BookController(ViewsRenderer viewsRenderer) { // <1>
-        this.viewsRenderer = viewsRenderer;
+    public BookController(MessageSource messageSource) {
+        this.messageSource = messageSource;
     }
     //end::di[]
 
@@ -68,18 +68,21 @@ public class BookController {
     //end::save[]
 
     //tag::onSavedFailed[]
-    @Produces(MediaType.TEXT_HTML) // <2>
+    @View("bookscreate")
     @Error(exception = ConstraintViolationException.class) // <3>
-    public Writable onSavedFailed(HttpRequest request, ConstraintViolationException ex) { // <4>
+    public Map<String, Object> onSavedFailed(HttpRequest request, ConstraintViolationException ex) { // <4>
         final Map<String, Object> model = createModelWithBlankValues();
-        model.put("errors", violationsMessages(ex.getConstraintViolations()));
+        model.put("errors", messageSource.violationsMessages(ex.getConstraintViolations()));
         Optional<CommandBookSave> cmd = request.getBody(CommandBookSave.class);
-        cmd.ifPresent(bookSave -> {
-            model.put("title", bookSave.getTitle());
-            model.put("pages", bookSave.getPages());
-        });
-        return viewsRenderer.render("bookscreate", model);
+        cmd.ifPresent(bookSave -> populateModel(model, bookSave));
+        return model;
     }
+
+    private void populateModel(Map<String, Object> model, CommandBookSave bookSave) {
+        model.put("title", bookSave.getTitle());
+        model.put("pages", bookSave.getPages());
+    }
+
     //end::onSavedFailed[]
 
     //tag::createModelWithBlankValues[]
@@ -91,35 +94,6 @@ public class BookController {
     }
     //end::createModelWithBlankValues[]
 
-    //tag::violationsMessages[]
-    private List<String> violationsMessages(Set<ConstraintViolation<?>> violations) {
-        return violations.stream()
-                .map(BookController::violationMessage)
-                .collect(Collectors.toList());
-    }
-    //end::violationsMessages[]
 
-    //tag::violationMessage[]
-    private static String violationMessage(ConstraintViolation violation) {
-        StringBuilder sb = new StringBuilder();
-        Path.Node lastNode = lastNode(violation.getPropertyPath());
-        if (lastNode != null) {
-            sb.append(lastNode.getName());
-            sb.append(" ");
-        }
-        sb.append(violation.getMessage());
-        return sb.toString();
-    }
-    //end::violationMessage[]
-
-    //tag::lastNode[]
-    private static Path.Node lastNode(Path path) {
-        Path.Node lastNode = null;
-        for (final Path.Node node : path) {
-            lastNode = node;
-        }
-        return lastNode;
-    }
-    //end::lastNode[]
 
 }

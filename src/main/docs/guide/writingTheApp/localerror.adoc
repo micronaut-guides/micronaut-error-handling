@@ -96,6 +96,14 @@ include::{sourceDir}/src/main/java/example/micronaut/BookController.java[tag=las
 <3> By default `@Error` annotations are local. We specify the exception which we want to handle.
 <4> You can access the original `HttpRequest` which triggered the exception.
 
+Create a `javax.inject.Singleton` to encapsulate the generation of a list of messages from a `Set` of `ConstraintViolation`:
+
+[source,java]
+.src/main/java/example/micronaut/MessageSource.java
+----
+include::{sourceDir}/src/main/java/example/micronaut/MessageSource.java[]
+----
+
 
 
 
