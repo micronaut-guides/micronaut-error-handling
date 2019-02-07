@@ -6,8 +6,8 @@ import io.micronaut.http.HttpStatus;
 import io.micronaut.http.MediaType;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Error;
-import io.micronaut.http.hateos.JsonError;
-import io.micronaut.http.hateos.Link;
+import io.micronaut.http.hateoas.JsonError;
+import io.micronaut.http.hateoas.Link;
 import io.micronaut.views.ViewsRenderer;
 
 import java.util.Collections;
