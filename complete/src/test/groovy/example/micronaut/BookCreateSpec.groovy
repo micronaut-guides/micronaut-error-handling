@@ -1,16 +1,17 @@
 package example.micronaut
 
 import geb.spock.GebSpec
-import io.micronaut.context.ApplicationContext
 import io.micronaut.runtime.server.EmbeddedServer
-import spock.lang.AutoCleanup
+import io.micronaut.test.annotation.MicronautTest
 import spock.lang.IgnoreIf
-import spock.lang.Shared
 
+import javax.inject.Inject
+
+@MicronautTest
 class BookCreateSpec extends GebSpec {
-    @Shared
-    @AutoCleanup
-    EmbeddedServer embeddedServer = ApplicationContext.run(EmbeddedServer)
+
+    @Inject
+    EmbeddedServer embeddedServer
 
     @IgnoreIf({ !(sys['geb.env'] in ['chrome', 'firefox']) })
     def "verify tenant can be selected works"() {
