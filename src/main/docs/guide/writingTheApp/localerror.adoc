@@ -1,23 +1,10 @@
-In this section, we are going to create a local error handling to display validation errors when a form submission fails.
-
-
-Micronaut’s validation is built on with the standard framework – JSR 380, also known as Bean Validation 2.0.
-
-Hibernate Validator is a reference implementation of the validation API.
-
-Add a dependency to it:
-
-[source,groovy]
-.build.gradle
-----
-include::{sourceDir}/build.gradle[tag=hibernate-validator]
-----
+include::{commondir}/common-validation.adoc[indent=0]
 
 Then create a view to display a form:
 
 image::createbook.png[]
 
-[source,java]
+[source,html]
 .src/main/resources/views/bookscreate.vm
 ----
 include::{sourceDir}/src/main/resources/views/bookscreate.vm[]
@@ -43,12 +30,11 @@ include::{sourceDir}/src/main/java/example/micronaut/BookController.java[tag=cre
 ----
 
 <1> The class is defined as a controller with the `@Controller` annotation mapped to the path `/books`
-<2> Add `@Validated` annotation at the class level to any class that requires validation.
-<3> Use `@View` annotation to indicate the view name which should be used to render a view for the route.
-<4> You can specify the HTTP verb that a controller’s action responds to. To respond to a GET request, use the `io.micronaut.http.annotation.Get` annotation.
-<5> `@Consumes` annotation takes a `String[]` of supported media types for an incoming request.
-<6> The `@Post` annotation is used to map the index method to all requests that use an HTTP POST
-<7> Add `@Valid` to any method parameter which requires validation. We use a POGO to encapsulate the form submission.
+<2> Use `@View` annotation to indicate the view name which should be used to render a view for the route.
+<3> You can specify the HTTP verb that a controller’s action responds to. To respond to a GET request, use the `io.micronaut.http.annotation.Get` annotation.
+<4> `@Consumes` annotation takes a `String[]` of supported media types for an incoming request.
+<5> The `@Post` annotation is used to map the index method to all requests that use an HTTP POST
+<6> Add `@Valid` to any method parameter which requires validation. We use a POJO to encapsulate the form submission.
 
 Create the POJO encapsulating the submission:
 
@@ -58,10 +44,10 @@ Create the POJO encapsulating the submission:
 ----
 include::{sourceDir}/src/main/java/example/micronaut/CommandBookSave.java[]
 ----
-
-<1> `title` is required and must be not blank.
-<2> `pages` is required.
-<3> `pages` must be greater than 0.
+<1> Annotate the class with `@Introspected` to generate the Bean Metainformation at compile time.
+<2> `title` is required and must be not blank.
+<3> `pages` is required.
+<4> `pages` must be greater than 0.
 
 When the form submission fails, we want to display the errors in the UI as the next image illustrates:
 
@@ -81,10 +67,6 @@ include::{sourceDir}/src/main/java/example/micronaut/BookController.java[tag=di]
 .
 include::{sourceDir}/src/main/java/example/micronaut/BookController.java[tag=onSavedFailed]
 
-include::{sourceDir}/src/main/java/example/micronaut/BookController.java[tag=violationsMessages]
-
-include::{sourceDir}/src/main/java/example/micronaut/BookController.java[tag=violationMessage]
-
 include::{sourceDir}/src/main/java/example/micronaut/BookController.java[tag=lastNode]
 ..
 ...
@@ -92,9 +74,8 @@ include::{sourceDir}/src/main/java/example/micronaut/BookController.java[tag=las
 ----
 
 <1> Constructor injection
-<2> Annotate a controller’s action with `@Produces` to change the response content type.
-<3> By default `@Error` annotations are local. We specify the exception which we want to handle.
-<4> You can access the original `HttpRequest` which triggered the exception.
+<2> By default `@Error` annotations are local. We specify the exception which we want to handle.
+<3> You can access the original `HttpRequest` which triggered the exception.
 
 Create a `javax.inject.Singleton` to encapsulate the generation of a list of messages from a `Set` of `ConstraintViolation`:
 

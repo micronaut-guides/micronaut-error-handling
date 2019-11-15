@@ -1,19 +1,21 @@
 package example.micronaut;
 
+import io.micronaut.core.annotation.Introspected;
+
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 
+@Introspected // <1>
 public class CommandBookSave {
-    @NotBlank // <1>
+    @NotBlank // <2>
     private String title;
 
-    @NotNull // <2>
-    @Positive // <3>
+    @NotNull // <3>
+    @Positive // <4>
     private Integer pages;
 
     public CommandBookSave() {
-
     }
 
     public String getTitle() {

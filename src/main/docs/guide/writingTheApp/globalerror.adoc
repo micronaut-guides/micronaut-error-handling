@@ -9,17 +9,17 @@ To use the view rendering features described in this section, add the following 
 [source,groovy]
 .build.gradle
 ----
-include::{sourceDir}/build.gradle[tag=views]
+include::{sourceDir}/build.gradle[tag=views,indent=0]
 ----
 
 Micronaut ships out-of-the-box with support for http://velocity.apache.org/[Apache Velocity], https://www.thymeleaf.org/[Thymeleaf] or http://jknack.github.io/handlebars.java/[Handlebars]. In this guide, we use Apache Velocity.
 
-Create a `notfound.vm` view:
+Create a `notFound.vm` view:
 
-[source,java]
-.src/main/resources/views/notfound.vm
+[source,html]
+.src/main/resources/views/notFound.vm
 ----
-include::{sourceDir}/src/main/resources/views/notfound.vm[]
+include::{sourceDir}/src/main/resources/views/notFound.vm[]
 ----
 
 Create a `NotFoundController`:

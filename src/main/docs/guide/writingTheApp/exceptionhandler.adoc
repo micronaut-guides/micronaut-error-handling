@@ -12,6 +12,7 @@ include::{sourceDir}/src/main/java/example/micronaut/BookController.java[tag=cla
 include::{sourceDir}/src/main/java/example/micronaut/BookController.java[tag=stock]
 }
 ----
+<1> The class is defined as a controller with the `@Controller` annotation mapped to the path `/books`
 
 [source,java]
 .src/main/java/example/micronaut/OutOfStockException.java
@@ -31,13 +32,3 @@ include::{sourceDir}/src/main/java/example/micronaut/OutOfStockExceptionHandler.
 <2> This bean loads if `OutOfStockException`, `ExceptionHandler` are available.
 <3> Specify the `Throwable` to handle.
 <4> Return 200 OK with a body of 0; no stock.
-
-
-
-
-
-
-
-
-
-
