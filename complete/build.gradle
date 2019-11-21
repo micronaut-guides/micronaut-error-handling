@@ -40,12 +40,12 @@ dependencies {
     //end::views[]
 
     //tag::geb[]
-    testCompile "org.gebish:geb-spock:$gebVersion"
+    testImplementation "org.gebish:geb-spock:$gebVersion"
     testRuntime "org.seleniumhq.selenium:selenium-chrome-driver:$seleniumVersion"
     testRuntime "org.seleniumhq.selenium:selenium-firefox-driver:$seleniumVersion"
     testImplementation "org.seleniumhq.selenium:selenium-support:$seleniumVersion"
     testImplementation "org.seleniumhq.selenium:selenium-api:$seleniumVersion"
-    //tag::geb[]
+    //end::geb[]
 
     //tag::spock[]
     testImplementation("org.spockframework:spock-core") {
