@@ -7,5 +7,7 @@ writingTheApp:
   globalerror: Global @Error
   localerror: Local @Error
   exceptionhandler: ExceptionHandler
+graal:
+  title: Generate a Micronaut app's Native Image with GraalVM
 nextSteps:
   title: Next Steps

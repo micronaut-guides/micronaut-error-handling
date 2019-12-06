@@ -58,6 +58,13 @@ dependencies {
     testImplementation "io.micronaut.test:micronaut-test-spock"
     //end::spock[]
 
+    //tag::micronaut-graal[]
+    annotationProcessor "io.micronaut:micronaut-graal"
+    //end::micronaut-graal[]
+    //tag::svm[]
+    compileOnly "org.graalvm.nativeimage:svm:19.3.0"
+    //end::svm[]
+
     runtimeOnly "ch.qos.logback:logback-classic:1.2.3"
 
     testAnnotationProcessor platform("io.micronaut:micronaut-bom:$micronautVersion")

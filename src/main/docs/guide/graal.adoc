@@ -1,0 +1,5 @@
+include::{commondir}/common-graal-setup.adoc[]
+
+include::{commondir}/common-graal-nativeimage.adoc[]
+
+include::{commondir}/common-graal-docker.adoc[]
