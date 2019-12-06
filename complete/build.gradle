@@ -29,7 +29,6 @@ dependencies {
     annotationProcessor "io.micronaut:micronaut-graal"
     //end::micronaut-graal[]
     //tag::svm[]
-    implementation("io.micronaut:micronaut-graal")
     compileOnly "org.graalvm.nativeimage:svm:19.3.0"
     //end::svm[]
 
