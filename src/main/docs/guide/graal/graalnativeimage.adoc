@@ -1,1 +1,3 @@
+include::{commondir}/common-graal-install.adoc[]
+
 include::{commondir}/common-graal-nativeimage.adoc[]
