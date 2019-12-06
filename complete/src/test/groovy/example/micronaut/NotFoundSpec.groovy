@@ -13,7 +13,6 @@ class NotFoundSpec extends GebSpec {
     @Inject
     EmbeddedServer embeddedServer
 
-    @IgnoreIf({ !(sys['geb.env'] in ['chrome', 'firefox']) })
     def "verify tenant can be selected works"() {
         given:
         browser.baseUrl = "http://localhost:${embeddedServer.port}"
