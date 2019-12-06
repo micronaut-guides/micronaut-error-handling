@@ -31,7 +31,7 @@ include::{sourceDir}/src/main/java/example/micronaut/NotFoundController.java[]
 ----
 
 <1> The class is defined as a controller with the `@Controller` annotation.
-<2> Inject an available https://docs.micronaut.io/snapshot/api/io/micronaut/views/ViewRenderer.html[ViewRenderer] bean to render an HTML view.
+<2> Inject an available https://micronaut-projects.github.io/micronaut-views/latest/api/index.html[ViewRenderer] bean to render an HTML view.
 <3> The Error declares which `HttpStatus` error code to handle (in this case 404). We declare the method as a global error handler due to `global = true`.
 <4> If the request `Accept` HTTP Header contains `text/html`, we respond an HTML View.
 <5> By default, we respond JSON.
