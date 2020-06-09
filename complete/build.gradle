@@ -44,6 +44,16 @@ dependencies {
     //tag::views[]
     implementation("io.micronaut.views:micronaut-views-velocity")
     //end::views[]
+
+    //tag::geb[]
+    testImplementation "org.gebish:geb-spock:3.4"
+
+    testImplementation "org.seleniumhq.selenium:htmlunit-driver:2.35.1"
+    testRuntime 'net.sourceforge.htmlunit:htmlunit:2.35.0'
+    testImplementation "org.seleniumhq.selenium:selenium-support:3.141.59"
+    testImplementation "org.seleniumhq.selenium:selenium-api:3.141.59"
+    //end::geb[]
+
     runtimeOnly("ch.qos.logback:logback-classic")
     testImplementation(enforcedPlatform("io.micronaut:micronaut-bom:$micronautVersion"))
     testImplementation("io.micronaut:micronaut-inject-groovy")
@@ -61,7 +71,6 @@ mainClassName = "example.micronaut.Application"
 test {
     useJUnitPlatform()
 }
-
 java {
     sourceCompatibility = JavaVersion.toVersion('1.8')
     targetCompatibility = JavaVersion.toVersion('1.8')
