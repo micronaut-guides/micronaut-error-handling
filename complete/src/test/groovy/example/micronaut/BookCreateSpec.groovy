@@ -13,7 +13,7 @@ class BookCreateSpec extends GebSpec {
     @Inject
     EmbeddedServer embeddedServer
 
-    def "verify tenant can be selected works"() {
+    def "verify validation in the form works"() {
         given:
         browser.baseUrl = "http://localhost:${embeddedServer.port}"
 
