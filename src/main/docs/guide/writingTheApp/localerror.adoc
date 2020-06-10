@@ -67,7 +67,7 @@ include::{sourceDir}/src/main/java/example/micronaut/BookController.java[tag=di]
 .
 include::{sourceDir}/src/main/java/example/micronaut/BookController.java[tag=onSavedFailed]
 
-include::{sourceDir}/src/main/java/example/micronaut/BookController.java[tag=lastNode]
+include::{sourceDir}/src/main/java/example/micronaut/BookController.java[tag=createModelWithBlankValues]
 ..
 ...
 }
