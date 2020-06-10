@@ -1,20 +1,20 @@
 package example.micronaut
 
 import geb.spock.GebSpec
+import io.micronaut.context.ApplicationContext
 import io.micronaut.runtime.server.EmbeddedServer
-import io.micronaut.test.annotation.MicronautTest
-import spock.lang.IgnoreIf
+import spock.lang.AutoCleanup
+import spock.lang.Shared
 
-import javax.inject.Inject
-
-@MicronautTest
 class BookCreateSpec extends GebSpec {
 
-    @Inject
-    EmbeddedServer embeddedServer
+    @Shared
+    @AutoCleanup
+    EmbeddedServer embeddedServer = ApplicationContext.run(EmbeddedServer)
 
-    def "verify validation in the form works"() {
+    void "verify validation in the form works"() {
         given:
+
         browser.baseUrl = "http://localhost:${embeddedServer.port}"
 
         when:
@@ -44,5 +44,6 @@ class BookCreateSpec extends GebSpec {
         page.hasErrors()
         page.errors().contains('title must not be blank')
         page.errors().contains('pages must be greater than 0')
+
     }
 }

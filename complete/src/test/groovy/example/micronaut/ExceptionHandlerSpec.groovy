@@ -1,24 +1,26 @@
 package example.micronaut
 
+import io.micronaut.context.ApplicationContext
 import io.micronaut.http.HttpRequest
-import io.micronaut.http.client.RxHttpClient
-import io.micronaut.http.client.annotation.Client
-import io.micronaut.test.annotation.MicronautTest
+import io.micronaut.http.client.BlockingHttpClient
+import io.micronaut.http.client.HttpClient
+import io.micronaut.runtime.server.EmbeddedServer
+import spock.lang.AutoCleanup
+import spock.lang.Shared
 import spock.lang.Specification
 
-import javax.inject.Inject
-
-@MicronautTest
 class ExceptionHandlerSpec extends Specification {
+    @Shared
+    @AutoCleanup
+    EmbeddedServer embeddedServer = ApplicationContext.run(EmbeddedServer)
 
-    @Inject
-    @Client("/")
-    RxHttpClient client
+    @Shared
+    BlockingHttpClient client = embeddedServer.applicationContext.createBean(HttpClient, embeddedServer.URL).toBlocking()
 
     void "test OutOfStockException is handled by ExceptionHandler"() {
         when:
         HttpRequest request = HttpRequest.GET('/books/stock/1234')
-        Integer stock = client.toBlocking().retrieve(request, Integer)
+        Integer stock = client.retrieve(request, Integer)
 
         then:
         noExceptionThrown()
