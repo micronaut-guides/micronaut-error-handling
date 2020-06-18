@@ -1,18 +1,18 @@
 package example.micronaut
 
 import geb.spock.GebSpec
+import io.micronaut.context.ApplicationContext
 import io.micronaut.runtime.server.EmbeddedServer
-import io.micronaut.test.annotation.MicronautTest
+import spock.lang.AutoCleanup
+import spock.lang.Shared
 
-import javax.inject.Inject
-
-@MicronautTest
 class NotFoundSpec extends GebSpec {
 
-    @Inject
-    EmbeddedServer embeddedServer
+    @Shared
+    @AutoCleanup
+    EmbeddedServer embeddedServer = ApplicationContext.run(EmbeddedServer)
 
-    def "verify tenant can be selected works"() {
+    void "verify tenant can be selected works"() {
         given:
         browser.baseUrl = "http://localhost:${embeddedServer.port}"
 
