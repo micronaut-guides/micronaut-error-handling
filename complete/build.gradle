@@ -1,17 +1,16 @@
 plugins {
-    id "net.ltgt.apt-eclipse" version "0.21"
+    id "com.diffplug.eclipse.apt" version "3.22.0"
     id "groovy"
-    id "com.github.johnrengelman.shadow" version "5.2.0"
+    id "com.github.johnrengelman.shadow" version "6.0.0"
     id "application"
 }
 
 version "0.1"
 group "example.micronaut"
 
-
 repositories {
+    mavenCentral()
     jcenter()
-    maven { url "https://oss.jfrog.org/oss-snapshot-local" }
 }
 
 configurations {
@@ -20,23 +19,20 @@ configurations {
 }
 
 dependencies {
-    annotationProcessor(enforcedPlatform("io.micronaut:micronaut-bom:$micronautVersion"))
+    annotationProcessor(platform("io.micronaut:micronaut-bom:$micronautVersion"))
+    implementation(platform("io.micronaut:micronaut-bom:$micronautVersion"))
     annotationProcessor("io.micronaut:micronaut-inject-java")
-    annotationProcessor("io.micronaut:micronaut-validation")
-
     //tag::micronaut-graal[]
     annotationProcessor("io.micronaut:micronaut-graal")
     //end::micronaut-graal[]
+    compileOnly(platform("io.micronaut:micronaut-bom:$micronautVersion"))
     //tag::svm[]
     compileOnly("org.graalvm.nativeimage:svm")
     //end::svm[]
-
-    compileOnly(enforcedPlatform("io.micronaut:micronaut-bom:$micronautVersion"))
-
-    implementation(enforcedPlatform("io.micronaut:micronaut-bom:$micronautVersion"))
     implementation("io.micronaut:micronaut-inject")
     //tag::validator[]
-    implementation "io.micronaut:micronaut-validation"
+    annotationProcessor("io.micronaut:micronaut-validation")
+    implementation("io.micronaut:micronaut-validation")
     //end::validator[]
     implementation("io.micronaut:micronaut-runtime")
     implementation("io.micronaut:micronaut-http-server-netty")
@@ -44,23 +40,21 @@ dependencies {
     //tag::views[]
     implementation("io.micronaut.views:micronaut-views-velocity")
     //end::views[]
-
-    //tag::geb[]
-    testImplementation "org.gebish:geb-spock:3.4"
-
-    testImplementation "org.seleniumhq.selenium:htmlunit-driver:2.35.1"
-    testRuntime 'net.sourceforge.htmlunit:htmlunit:2.35.0'
-    testImplementation "org.seleniumhq.selenium:selenium-support:3.141.59"
-    testImplementation "org.seleniumhq.selenium:selenium-api:3.141.59"
-    //end::geb[]
-
     runtimeOnly("ch.qos.logback:logback-classic")
-    testImplementation(enforcedPlatform("io.micronaut:micronaut-bom:$micronautVersion"))
+    testImplementation(platform("io.micronaut:micronaut-bom:$micronautVersion"))
     testImplementation("io.micronaut:micronaut-inject-groovy")
     testImplementation("org.spockframework:spock-core") {
         exclude group: "org.codehaus.groovy", module: "groovy-all"
     }
     testImplementation("io.micronaut.test:micronaut-test-spock")
+
+    //tag::geb[]
+    testImplementation("org.gebish:geb-spock:3.4")
+    testImplementation("org.seleniumhq.selenium:htmlunit-driver:2.35.1")
+    testRuntime('net.sourceforge.htmlunit:htmlunit:2.35.0')
+    testImplementation("org.seleniumhq.selenium:selenium-support:3.141.59")
+    testImplementation("org.seleniumhq.selenium:selenium-api:3.141.59")
+    //end::geb[]
 }
 
 test.classpath += configurations.developmentOnly
@@ -71,6 +65,7 @@ mainClassName = "example.micronaut.Application"
 test {
     useJUnitPlatform()
 }
+
 java {
     sourceCompatibility = JavaVersion.toVersion('1.8')
     targetCompatibility = JavaVersion.toVersion('1.8')
@@ -83,8 +78,8 @@ tasks.withType(JavaCompile) {
         // enables incremental compilation
         '-Amicronaut.processing.incremental=true',
         '-Amicronaut.processing.annotations=example.micronaut.*',
-        '-Amicronaut.processing.group=example.micronaut',
-        '-Amicronaut.processing.module=complete',
+        "-Amicronaut.processing.group=$project.group",
+        "-Amicronaut.processing.module=$project.name",
     ])
 }
 
@@ -95,6 +90,13 @@ shadowJar {
 tasks.withType(JavaExec) {
     classpath += configurations.developmentOnly
     jvmArgs('-XX:TieredStopAtLevel=1', '-Dcom.sun.management.jmxremote')
+    if (gradle.startParameter.continuous) {
+        systemProperties(
+            'micronaut.io.watch.restart':'true',
+            'micronaut.io.watch.enabled':'true',
+            "micronaut.io.watch.paths":"src/main"
+        )
+    }
 }
 
 

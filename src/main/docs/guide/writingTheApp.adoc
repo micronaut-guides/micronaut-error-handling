@@ -2,5 +2,5 @@ Create the microservice:
 
 [source,bash]
 ----
-mn create-app example.micronaut.complete
+mn create-app example.micronaut.complete --test spock
 ----
