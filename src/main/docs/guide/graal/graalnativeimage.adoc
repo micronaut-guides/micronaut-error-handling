@@ -1,3 +1,28 @@
 include::{commondir}/common-graal-install.adoc[]
 
 include::{commondir}/common-graal-nativeimage.adoc[]
+
+After you run the native image, execute a curl request:
+
+[source, bash]
+----
+curl -H 'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8' localhost:8080/foo
+----
+
+You should get successful response.
+
+[source, bash]
+----
+ % curl -H 'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8' localhost:8080/foo
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Not Found</title>
+</head>
+<body>
+<h1>NOT FOUND</h1>
+....
+----
+
+WARNING: Prior to Micronaut 2.0 you had to https://guides.micronaut.io/1.x/micronaut-guides/micronaut-error-handling/guide/index.html#graalreflectjson[provide reflection information for GraalVM to work with Apache Velocity].
